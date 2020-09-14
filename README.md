@@ -101,55 +101,16 @@ For this demo, the web app consumes body motion metrics directly from the proces
 
 ## Deploying
 
-### CloudFormation Deployment
-
-There are two flavors of this project that can be deployed:
-
-* **'Full'** version - expressed in [`template.yaml`](template.yaml). Includes all components described in previous section.
-* **'Lite'** version - expressed in [`template_lite.yaml`](template_lite.yaml). Only includes browser Webcam to Kinesis Video Streams component. Rekognition Video, Kinesis Data Streams, and demo analytics + visualizations are excluded for simplicity.
-
-This project can be deployed using [AWS
-CloudFormation](https://aws.amazon.com/cloudformation/) as a *Change Set for a New Stack* (a serverless application transform must first be applied to the `template.yaml` definition).
-
-Click the button to begin the stack creation process:
-
-**Full** Version:  <a target="_blank" href="https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/create/template?templateURL=https:%2F%2Fs3.amazonaws.com%2Fbrainpower-aws-blogs%2Fartifacts%2Ffidgetology-demo-app%2Fmaster-template.yaml"><span><img height="24px" src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png"/></span></a>
-
-**Lite** Version:  <a target="_blank" href="https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/create/template?templateURL=https:%2F%2Fs3.amazonaws.com%2Fbrainpower-aws-blogs%2Fartifacts%2Ffidgetology-demo-app%2Fpackaged-template_lite.yaml"><span><img height="24px" src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png"/></span></a>
-
-**Step 1.** Click **Next**, and specify **brain-power-fidgetology-demo** as the **Stack name**. Accept all default parameters and click **Next**.
-
-<kbd>
- <img src="attachments/screenshots/Brain_Power_fidgetology_05__CreateChangeSetDetails.png?raw=true">
-</kbd></br></br>
-
-**Step 2.** Click **Next** again to get to the final Review page. Under *Capabilities and transforms*, confirm acknowledgement that new IAM resources will be created. Then click **Create stack**.
-
-<kbd>
- <img src="attachments/screenshots/Brain_Power_fidgetology_06__CreateChangeSetIAM.png?raw=true">
-</kbd><br/><br/>
-
-**Step 3.** Refresh the CloudFormation page to find your newly created stack. Click on it to monitor the deployment process, which should take no more than 3 minutes.
-
-<kbd>
- <img src="attachments/screenshots/Brain_Power_fidgetology_08__CreateStackInProgress.png?raw=true">
-</kbd><br/><br/>
-
-**Step 4.** After deployment is complete, launch the demo web app by visiting the **WebAppSecureURL** link listed under *Outputs*.
-
-<kbd>
- <img src="attachments/screenshots/Brain_Power_fidgetology_09__WebAppURLOutput.png?raw=true">
-</kbd><br/><br/>
-
-By default, the CloudFormation template
-creates all necessary AWS resources for this project (Kinesis Video Stream, Rekognition Stream Processor, Kinesis Data Streams, serverless Lambda functions, and an API Gateway endpoint). It copies the dashboard web application to an
-[Amazon S3](https://aws.amazon.com/s3/) bucket and outputs a secure URL (fronted by API Gateway) for accessing the web app.
-
 ### Command Line Deployment
 
 **Prerequisites**:
  * (For customized deployment) [AWS-CLI](https://docs.aws.amazon.com/cli/latest/userguide/installing.html) installed. Ensure you have required permissions on your account (most notably: S3 bucket creation/deletion, full access to Rekognition and Kinesis Video Stream. Other resources launched in this project include: Lambda, API Gateway, Kinesis Data Stream)
  * (For local development only) [Node.js (>= 10)](https://nodejs.org/en/download/) installed.
+
+There are two flavors of this project that can be deployed:
+
+* **'Full'** version - expressed in [`template.yaml`](template.yaml). Includes all components described in previous section.
+* **'Lite'** version - expressed in [`template_lite.yaml`](template_lite.yaml). Only includes browser Webcam to Kinesis Video Streams component. Rekognition Video, Kinesis Data Streams, and demo analytics + visualizations are excluded for simplicity.
 
 The CloudFormation stack defined in `template.yaml` is expressed using the [AWS Serverless Application Model](https://github.com/awslabs/serverless-application-model). Review it for a description
 of the configuration options and AWS resource components. The template can be modified for a custom deployment.
