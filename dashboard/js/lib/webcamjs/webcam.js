@@ -1,9 +1,9 @@
-// WebcamJS v1.0.24
+// WebcamJS v1.0.26
 // Webcam library for capturing JPEG/PNG images in JavaScript
 // Attempts getUserMedia, falls back to Flash
 // Author: Joseph Huckaby: http://github.com/jhuckaby
 // Based on JPEGCam: http://code.google.com/p/jpegcam/
-// Copyright (c) 2012 - 2017 Joseph Huckaby
+// Copyright (c) 2012 - 2019 Joseph Huckaby
 // Licensed under the MIT License
 
 (function(window) {
@@ -27,14 +27,14 @@ function WebcamError() {
 	this.message = temp.message;
 }
 
-IntermediateInheritor = function() {};
+var IntermediateInheritor = function() {};
 IntermediateInheritor.prototype = Error.prototype;
 
 FlashError.prototype = new IntermediateInheritor();
 WebcamError.prototype = new IntermediateInheritor();
 
 var Webcam = {
-	version: '1.0.24',
+	version: '1.0.26',
 	
 	// globals
 	protocol: location.protocol.match(/https/i) ? 'https' : 'http',
@@ -91,10 +91,6 @@ var Webcam = {
 		
 		window.URL = window.URL || window.webkitURL || window.mozURL || window.msURL;
 		this.userMedia = this.userMedia && !!this.mediaDevices && !!window.URL;
-		
-		if (this.iOS) {
-			this.userMedia = null;
-		}
 		
 		// Older versions of firefox (< 21) apparently claim support but user media does not actually work
 		if (navigator.userAgent.match(/Firefox\D+(\d+)/)) {
@@ -273,7 +269,8 @@ var Webcam = {
 		if (this.userMedia) {
 			// setup webcam video container
 			var video = document.createElement('video');
-			video.setAttribute('autoplay', '1');
+			video.setAttribute('autoplay', 'autoplay');
+			video.setAttribute('playsinline', 'playsinline');
 			video.style.width = '' + this.params.dest_width + 'px';
 			video.style.height = '' + this.params.dest_height + 'px';
 			
@@ -569,6 +566,7 @@ var Webcam = {
 			return true;
 		}
 		else if (name == 'error') {
+			var message;
 			if ((args[0] instanceof FlashError) || (args[0] instanceof WebcamError)) {
 				message = args[0].message;
 			} else {
